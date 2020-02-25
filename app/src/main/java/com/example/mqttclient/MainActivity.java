@@ -16,7 +16,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     MqttHelper mqttHelper;
-    String url= "https://iotjuttukoulu.s3.amazonaws.com/";
+    String url= "";
     TextView dataReceived;
     String url2="";
     Button btnAuki;

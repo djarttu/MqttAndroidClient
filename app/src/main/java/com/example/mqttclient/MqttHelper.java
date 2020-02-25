@@ -14,13 +14,12 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 public class MqttHelper {
     public MqttAndroidClient mqttAndroidClient;
 
-    final String serverUri = "tcp://52.45.201.13:1883";
+    final String serverUri = "tcp://X.X.X.X:1883";
 
     final String clientId = "myAndroidClient";
     final String subscriptionTopic = "kuva";
 
-    //final String username = "yourUserName";
-    //final String password = "yourP$wd";
+
 
     public MqttHelper(Context context){
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
