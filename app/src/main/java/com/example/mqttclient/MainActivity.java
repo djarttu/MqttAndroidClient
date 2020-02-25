@@ -3,6 +3,7 @@ package com.example.mqttclient;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,13 +18,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     MqttHelper mqttHelper;
     String url= "https://iotjuttukoulu.s3.amazonaws.com/";
     TextView dataReceived;
+    String url2="";
+    Button btnAuki;
+    Button btnKiinni;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.auki).setOnClickListener(this);
+        findViewById(R.id.kiinni).setOnClickListener(this);
+
+        btnAuki = findViewById(R.id.auki);
+        btnKiinni = findViewById(R.id.kiinni);
+
+        btnAuki.setEnabled(false);
+        btnKiinni.setEnabled(false);
+
         dataReceived = (TextView) findViewById(R.id.osoite);
 
         startMqtt();
@@ -46,8 +57,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.w("Debug", mqttMessage.toString());
                 dataReceived.setText(mqttMessage.toString());
-                url=url+mqttMessage.toString();
-                setImage(url);
+                url2=url+mqttMessage.toString();
+                setImage(url2);
+
+                btnAuki.setEnabled(true);
+                btnKiinni.setEnabled(true);
 
             }
 
@@ -58,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
     public void setImage(String osoite){
-        new DownLoadImageTask((ImageView)findViewById(R.id.image)).execute(url);
+        new DownLoadImageTask((ImageView)findViewById(R.id.image)).execute(url2);
     }
     public void handleDoor(int i) throws MqttException {
         if(i==0)
@@ -75,6 +89,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (MqttException e) {
                 e.printStackTrace();
             }
+            btnAuki.setEnabled(false);
+            btnKiinni.setEnabled(false);
+        }
+        if(v.getId() == R.id.kiinni){
+            try {
+                handleDoor(0);
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+            btnAuki.setEnabled(false);
+            btnKiinni.setEnabled(false);
         }
     }
 }
